@@ -28,3 +28,49 @@ const scrollHeader = ()=>{
   this.scrollY >= 50 ? header.classList.add('bg-header') : header.classList.remove('bg-header')
 }
 window.addEventListener('scroll', scrollHeader)
+
+//calculate
+
+const calculateFrom = document.getElementById("calculate-form"),
+    calculateCm = document.getElementById('calculate-cm'),
+    calculateKg = document.getElementById('calculate-kg'),
+    calculateMessage = document.getElementById('calculate-message')
+
+const calculateBmi = (e)=>{
+  e.preventDefault()
+  if(calculateCm.value === '' || calculateKg === ''){
+    calculateMessage.classList.remove('color-green')
+    calculateMessage.classList.add('color-red')
+
+    calculateMessage.textContent = 'FIll in the height and wight'
+
+    setTimeout(()=>{
+      calculateMessage.textContent = ''
+    }, 3000)
+
+  } else{
+    const cm = calculateCm.value / 100,
+        kg = calculateKg.value ,
+        bmi = Math.round(kg/(cm*cm))
+
+    if(bmi < 18.5){
+      calculateMessage.classList.add("color-green")
+      calculateMessage.textContent = `you bmi ${bmi} skinny`
+    } else if(bmi<25){
+      calculateMessage.classList.add("color-green")
+      calculateMessage.textContent = `you bmi ${bmi} healthy`
+    } else{
+      calculateMessage.classList.add("color-green")
+      calculateMessage.textContent = `you bmi ${bmi} overwight`
+    }
+
+    calculateCm.value = ''
+    calculateKg.value = ''
+
+    setTimeout(()=>{
+      calculateMessage.textContent = ''
+    }, 4000)
+  }
+}
+
+calculateFrom.addEventListener('submit', calculateBmi)
